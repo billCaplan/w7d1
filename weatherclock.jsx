@@ -15,7 +15,11 @@ var WeatherClock = React.createClass({
     return { currentTime: new Date(), geoLoc: navigator.geolocation.getCurrentPosition(this.showPosition) };
   },
   componentDidMount: function (){
-    return setInterval(this.tick, 1000);
+    this.interval = setInterval(this.tick, 1000);
+  },
+
+  componentWillUnmount: function () {
+    
   },
   tick: function(){
     this.setState({ currentTime: new Date(this.state.currentTime.getTime() + 1000)});
@@ -27,17 +31,20 @@ var WeatherClock = React.createClass({
               Math.round(this.state.latitude * 100)/100 +
               "&lon=" +
               Math.round(this.state.longitude * 100)/100 +
-              "&appid=645c5d39c7603f17e23fcaffcea1a3c1"
+              "&appid=645c5d39c7603f17e23fcaffcea1a3c1&units=imperial"
 
     var xmlhttp = new XMLHttpRequest();
-
 
     xmlhttp.onreadystatechange = function() {
        if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
           if(xmlhttp.status == 200){
-            that.setState({
-              weather: this.response
-            })
+              var rawWeather = this.response.split(",")
+              rawWeather.forEach( function(el){
+                if (el.indexOf('main') !== -1 && el.indexOf('temp') !== -1) {
+                  //finish later
+                }
+              })
+            that.setState({weather: this.response})
           }
           else {
             //failure
@@ -48,10 +55,6 @@ var WeatherClock = React.createClass({
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
   },
-
-
-
-
   render: function() {
     var self = this;
     return (

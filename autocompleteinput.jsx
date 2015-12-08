@@ -13,7 +13,6 @@ var AutoCompleteInput = React.createClass({
   },
 
   render: function() {
-
     var self = this
     var lib = self.props.names;
     var searchString = self.state.searchString.trim().toLowerCase();
@@ -25,23 +24,20 @@ var AutoCompleteInput = React.createClass({
     }
 
     return (
-        <div>
-          <input
-            type="text"
-            value={self.state.searchString}
-            onChange={self.handleChange} placeholder="Type Here" />
-          <ul>
-            {
-              lib.map(function(l) {
-                return <li onClick={self.searchFill} key={l}>{l}</li>
-              })
-            }
-          </ul>
-        </div>
-
-
-    )
-
+      <div>
+        <input
+          type="text"
+          value={self.state.searchString}
+          onChange={self.handleChange} placeholder="Type Here" />
+        <ul>
+          {
+            lib.map(function(l) {
+              return <li onClick={self.searchFill} key={l}>{l}</li>
+            })
+          }
+        </ul>
+      </div>
+    );
   }
 })
 
